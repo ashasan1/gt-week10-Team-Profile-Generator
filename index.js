@@ -1,68 +1,68 @@
 const inquirer = require("inquirer");
 const fs = require('fs');
 
-let fullTeam = [];
 
-const managerQuestions = [
-    {
-        type: 'input',
-        message: "What is the team manager's name?",
-        name: 'manager'
-    },
-    {
-        type: 'input',
-        message: 'What is your team manager email?',
-        name: 'managerEmail',
-    }
-];
-
-
-// inquirer.prompt(teamQuestions).then((response))
-
-// function makeManager() {
-//     inquirer.prompt(managerQuestions).then(function (response) {
-//         let teamManager = `${response.manager}`;
-//         fullTeam.push(teamManager);
-//     }
-//     )};
-
-function makeManager() {
-    inquirer.prompt(managerQuestions).then( function (response) {
-        const teamManager = `${response.manager}`;
-        fullTeam.push(teamManager);
-    })
-}
-
-
-
-// function makeCard(member,input) {
-//     fs.writeFile(`${member}.html`, input, (err) =>
-//     err ? console.error(err) : console.log(`Success!`)
-//     )
-// }
-
-function makeTeamHTML(input) {
-    fs.writeFile(`team.html`), input, (err) =>
-    err ? console.error(err) : console.log(`Success!`)
-}
+const Worker = require("./team/worker");
+const Manager = require("./team/manager");
 
 makeManager();
-makeTeamHTML(
-    `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
+
+let fullTeam = ["test"];
+
+
+function makeManager() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: "What is the team manager's name?",
+            name: 'manager'
+        },
+        {
+            type: 'input',
+            message: 'What is your team manager email?',
+            name: 'managerEmail'
+        },
+        {
+            type: 'input',
+            message: 'What is the manager office number?',
+            name: 'office'
+        }
+    ]).then( function (response) {
+        const name = response.manager;
+        const id = 1;
+        const email = response.managerEmail;
+        const office = response.office;
+        const workerMember = new Manager(name, id, email, office)
+        fullTeam.push(workerMember);
+        console.log(fullTeam);
+    });
     
-    <div>
-    <h1>Team Member Position: </h1>
-    </div>
+}
+
+
+function makeTeamHTML(input) {
+    fs.writeFile("team.html"), input, (err) =>
+    err ? console.error(err) : console.log(`Success!`)
+};
+
+console.log(fullTeam);
+makeTeamHTML("Hello World!");
+// makeTeamHTML(
+//     `
+//     <!DOCTYPE html>
+//     <html lang="en">
+//     <head>
+//         <meta charset="UTF-8">
+//         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//         <title>Document</title>
+//     </head>
+//     <body>
+    
+//     <div>
+//     <h1>Team Member Position:</h1>
+//     </div>
         
-    </body>
-    </html>`
-    );
+//     </body>
+//     </html>`
+//     );
